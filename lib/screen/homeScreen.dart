@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:nicode/widgets/boxes.dart';
 import 'package:nicode/widgets/itemCard.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,6 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final box = Hive.box('path');
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -30,115 +34,172 @@ class HomeScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.orange)),
-            child: Icon(Icons.search),
+            child: Icon(
+              Icons.search,
+              color: Colors.grey,
+            ),
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
+            child: Column(
               children: [
-                ItemCard(
-                  image: 'assets/images/chocolateD.jpg',
-                  title: 'دونات شکلاتی',
-                  press: () {
-                    Get.defaultDialog(
-                      title: "این دونات رو میخوای؟",
-                      middleText: "",
-                      titleStyle: TextStyle(
-                        color: Colors.brown[500],
-                        fontWeight: FontWeight.bold,
-                      ),
-                      radius: 8,
-                      textConfirm: "بله",
-                      textCancel: "!نمیدونم",
-                      onConfirm: () {
-                        Get.back();
+                Row(
+                  children: [
+                    ItemCard(
+                      image: 'assets/images/chocolateD.jpg',
+                      title: 'دونات شکلاتی',
+                      press: () {
+                        box.deleteAll(box.keys);
                         Get.defaultDialog(
-                          title: "مطمئنی؟",
+                          title: "این دونات رو میخوای؟",
                           middleText: "",
                           titleStyle: TextStyle(
                             color: Colors.brown[500],
                             fontWeight: FontWeight.bold,
                           ),
                           radius: 8,
-                          actions: [
-                            RaisedButton(
-                              child: Text(
-                                "!نه",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                              color: Colors.white,
-                              onPressed: () {
-                                Get.back();
-                                Get.defaultDialog(
-                                  title: "میخوای بقیه دونات ها رو ببینی؟",
-                                  middleText: "",
-                                  titleStyle: TextStyle(
-                                    color: Colors.brown[500],
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  radius: 8,
-                                  textConfirm: "بله",
-                                  textCancel: "نه پشیمون شدم",
-                                  onConfirm: () {},
-                                  onCancel: () {},
-                                  cancelTextColor: Colors.red,
-                                  confirmTextColor: Colors.white,
-                                  barrierDismissible: false,
-                                );
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(18.0),
-                                side: BorderSide(color: Colors.blue),
-                              ),
-                            ),
-                            RaisedButton(
-                              child: Text(
-                                "آره مطمئنم",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                Get.back();
+                          textConfirm: "بله",
+                          textCancel: "!نمیدونم",
+                          onConfirm: () {
+                            // final box = Boxes.getPath();
 
-                                Get.defaultDialog(
-                                  title: "!برای بار آخر میپرسم پشیمون نشی بعدا",
-                                  middleText: "",
-                                  titleStyle: TextStyle(
-                                    color: Colors.brown[500],
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  radius: 8,
-                                  textConfirm: "همین و میخوام",
-                                  textCancel: "!نمیدونم",
-                                  onConfirm: () {},
-                                  onCancel: () {},
-                                  cancelTextColor: Colors.red,
-                                  confirmTextColor: Colors.white,
-                                  barrierDismissible: false,
-                                );
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(18.0),
+                            box.put('value1', 'بله');
+                            Get.back();
+                            Get.defaultDialog(
+                              title: "مطمئنی؟",
+                              middleText: "",
+                              titleStyle: TextStyle(
+                                color: Colors.brown[500],
+                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          ],
+                              radius: 8,
+                              actions: [
+                                RaisedButton(
+                                  child: Text(
+                                    "!نه",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    box.put('value2', '!نه');
+                                    Get.back();
+                                    Get.defaultDialog(
+                                      title: "میخوای بقیه دونات ها رو ببینی؟",
+                                      middleText: "",
+                                      titleStyle: TextStyle(
+                                        color: Colors.brown[500],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      radius: 8,
+                                      textConfirm: "بله",
+                                      textCancel: "نه پشیمون شدم",
+                                      onConfirm: () {
+                                        box.put('value3', 'بله');
+                                        Get.back();
+                                      },
+                                      onCancel: () {
+                                        box.put('value4', 'نه پشیمون شدم');
+                                      },
+                                      cancelTextColor: Colors.red,
+                                      confirmTextColor: Colors.white,
+                                      barrierDismissible: false,
+                                    );
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(18.0),
+                                    side: BorderSide(color: Colors.blue),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  child: Text(
+                                    "آره مطمئنم",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: () {
+                                    box.put('value5', 'آره مطمئنم');
+                                    Get.back();
+
+                                    Get.defaultDialog(
+                                      title:
+                                          "!برای بار آخر میپرسم پشیمون نشی بعدا",
+                                      middleText: "",
+                                      titleStyle: TextStyle(
+                                        color: Colors.brown[500],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      radius: 8,
+                                      textConfirm: "همین و میخوام",
+                                      textCancel: "!نمیدونم",
+                                      onConfirm: () {
+                                        box.put('value6', 'همین و میخوام');
+                                      },
+                                      onCancel: () {
+                                        box.put('value7', '!نمیدونم');
+                                      },
+                                      cancelTextColor: Colors.red,
+                                      confirmTextColor: Colors.white,
+                                      barrierDismissible: false,
+                                    );
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(18.0),
+                                  ),
+                                ),
+                              ],
+                              cancelTextColor: Colors.red,
+                              confirmTextColor: Colors.white,
+                              barrierDismissible: false,
+                            );
+                          },
+                          onCancel: () {
+                            box.put('value8', '!نمیدونم');
+                          },
                           cancelTextColor: Colors.red,
                           confirmTextColor: Colors.white,
                           barrierDismissible: false,
                         );
                       },
-                      cancelTextColor: Colors.red,
-                      confirmTextColor: Colors.white,
-                      barrierDismissible: false,
-                    );
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+                RaisedButton(
+                  child: Text(
+                    "...چی انتخاب کردی",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    // box.deleteFromDisk();
+                    String? data1 = box.get("value1");
+                    String? data2 = box.get("value2");
+                    String? data3 = box.get("value3");
+                    String? data4 = box.get("value4");
+                    String? data5 = box.get("value5");
+                    String? data6 = box.get("value6");
+                    String? data7 = box.get("value7");
+                    String? data8 = box.get("value8");
+
+                    List<String?> intList = [
+                      data1,
+                      data2,
+                      data3,
+                      data4,
+                      data5,
+                      data6,
+                      data7,
+                      data8
+                    ];
+                    List<String> filteredList = filter(intList); // New list
+                    Get.snackbar("title", filteredList.toString());
                   },
-                ),
-                ItemCard(
-                  image: 'assets/images/whiteD.jpg',
-                  title: 'دونات شیری',
-                  press: () {},
-                ),
-                SizedBox(
-                  width: 20,
+                  color: Colors.orange,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(18.0),
+                  ),
                 ),
               ],
             ),
@@ -146,5 +207,10 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<String> filter(List<String?> input) {
+    input.removeWhere((e) => e == null);
+    return List<String>.from(input);
   }
 }
