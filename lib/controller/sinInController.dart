@@ -28,21 +28,11 @@ class SignInController extends GetxController {
         await http.post(url, body: convert.jsonEncode(body), headers: header);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-      // final SharedPreferences prefs = await _prefs;
-      // prefs.setString(
-      //   "user_token",
-      //   jsonResponse['token'],
-      // );
-      Get.to(() => VerifyPhone(), arguments: jsonResponse['message']);
-      // isLoaing.value = false;
+
+      Get.off(() => VerifyPhone(), arguments: jsonResponse['message']);
       print('jsonResponse: $jsonResponse.');
     } else {
-      // print('Request failed with status: ${response.message}.');
-
       print('Request failed with status: ${response.statusCode}.');
-      // Get.snackbar("Error", "Please enter the correct information",
-      //     backgroundColor: Colors.red);
     }
   }
 }

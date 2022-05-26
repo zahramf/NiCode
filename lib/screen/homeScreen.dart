@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:nicode/widgets/boxes.dart';
 import 'package:nicode/widgets/itemCard.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -63,8 +62,6 @@ class HomeScreen extends StatelessWidget {
                             textConfirm: "بله",
                             textCancel: "!خیر",
                             onConfirm: () {
-                              // final box = Boxes.getPath();
-
                               box.put('value1', 'اضافه کردن محصول به سبد خرید');
                               Get.back();
                               Get.defaultDialog(

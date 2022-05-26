@@ -25,26 +25,15 @@ class VerifyController extends GetxController {
 
     Map<String, String> body = {"phoneNumber": "$phoneNumber", "code": "$code"};
 
-    // Await the http get response, then decode the json-formatted response.
     var response =
         await http.post(url, body: convert.jsonEncode(body), headers: header);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-      // final SharedPreferences prefs = await _prefs;
-      // prefs.setString(
-      //   "user_token",
-      //   jsonResponse['token'],
-      // );
-      Get.to(() => HomeScreen(), arguments: jsonResponse['message']);
-      // isLoaing.value = false;
+
+      Get.off(() => HomeScreen(), arguments: jsonResponse['message']);
       print('jsonResponse: $jsonResponse.');
     } else {
-      // print('Request failed with status: ${response.message}.');
-
       print('Request failed with status: ${response.statusCode}.');
-      // Get.snackbar("Error", "Please enter the correct information",
-      //     backgroundColor: Colors.red);
     }
   }
 }
