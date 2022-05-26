@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart' as pathprovider;
 import 'package:nicode/screen/signIn.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'model/path.dart';
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
-  final applicationDocumenter =
-      await pathprovider.getApplicationDocumentsDirectory();
-  await Hive.initFlutter(applicationDocumenter.path);
-  // await Hive.initFlutter();
+  // final applicationDocumenter =
+  //     await pathprovider.getApplicationDocumentsDirectory();
+  // await Hive.initFlutter(applicationDocumenter.path);
+  await Hive.initFlutter();
   // Hive.registerAdapter(PathAdapter());
   await Hive.openBox('path');
 

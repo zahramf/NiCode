@@ -10,6 +10,7 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -47,7 +48,7 @@ class SignIn extends StatelessWidget {
                           controller: signInController.phoneEditingController,
                           hintText: "phone number",
                           prefixIconData: Icons.phone,
-                          obscureText: true),
+                          obscureText: false),
                     ),
                     GestureDetector(
                       onTap: () async {
